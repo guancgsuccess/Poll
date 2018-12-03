@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 配置hibernate的基本属性 -->
+		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
+		<property name="connection.username">cx</property>
+		<property name="connection.password">cx</property>
+
+		<!-- 设置c3p0连接池 -->
+		<!-- 最大容量 -->
+		<property name="c3p0.max_size">20</property>
+		<!-- 最小容量 -->
+		<property name="c3p0.min_size">5</property>
+		<!-- 最大语句对象数量 -->
+		<property name="c3p0.max_statements">50</property>
+		<!-- 超时时间 -->
+		<property name="c3p0.timeout">5000</property>
+		<!-- 检测超时间隔时间 -->
+		<property name="c3p0.idle_test_period">2000</property>
+		<!-- 容量扩容增量 -->
+		<property name="c3p0.acquire_increment">5</property>
+
+
+		<!-- 1.数据源需配置到IOC容器中,所以在此处不再需要配置数据源 -->
+		<!-- 2.关联的注解类 -->
+		<!-- 配置hibernate的基本属性:方言,SQL显示及格式化,生成数据表的策略以及二级缓存等 -->
+		<!-- 配置数据库的方言 -->
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.Oracle10gDialect
+		</property>
+		<!--<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+
+		<!-- true代表在控制台显示生成的sql语句 -->
+		<property name="show_sql">true</property>
+
+		<!-- true代表格式化生成的sql语句 -->
+		<property name="format_sql">true</property>
+
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<!--扫描实体类-->
+		<!--<mapping class="com.cx.entity.User"/>
+		<mapping class="com.cx.entity.Role"/>
+		<mapping class="com.cx.entity.Menu"/>
+		<mapping class="com.cx.entity.Suggest"/>
+		<mapping class="com.cx.entity.Clazz"/>
+		<mapping class="com.cx.entity.Score"/>
+		<mapping class="com.cx.entity.Questions"/>-->
+
+		<mapping class="com.cx.entity.Clazz"/>
+	</session-factory>
+</hibernate-configuration>

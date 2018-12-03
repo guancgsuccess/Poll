@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:config.properties"/>
+
+   <context:component-scan base-package="com.cx.dao,com.cx.service"/>
+
+	<!-- 数据源,使用dbcp -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${drivers}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${user}"></property>
+		<property name="password" value="${passwords}"></property>
+		
+		<property name="initialSize" value="${initialSizes}"></property>
+		<property name="maxActive" value="${maxActives}"></property>
+		<property name="maxOpenPreparedStatements" value="50"></property>
+	</bean>
+	<!-- 配置sqlSessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 加载mybatis的配置文件 -->
+	<!--	<property name="configLocation" value="classpath:hibernate/hibernate.cfg.xml"></property>-->
+
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+
+		<!-- hibernate常用配置 -->
+		<property name="hibernateProperties">
+			<props>
+				 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="packagesToScan">
+			<value>com.cx.entity</value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<!-- 启用事务注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
